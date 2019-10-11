@@ -1,0 +1,31 @@
+make
+
+==========================
+
+docker login
+docker push cloudacademydevops/builder:latest
+oc import-image cloudacademydevops/builder:latest --confirm
+
+==========================
+
+s2i build https://github.com/jeremycook123/os-voteapp-frontend-react cloudacademydevops/builder sample-app
+
+or
+
+s2i build . cloudacademydevops/builder sample-app
+(note - if git repo will use latest commit only )
+
+==========================
+
+docker run -e REACT_APP_APIHOSTPORT=xxxxxxxxxxxx -it --rm --name test23 -p 8080:80 sample-app bash
+
+==========================
+
+oc describe bc
+oc describe bc s2i-build
+watch -n 5 oc describe bc s2i-build
+
+==========================
+==========================
+==========================
+==========================

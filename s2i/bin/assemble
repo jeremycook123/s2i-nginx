@@ -1,0 +1,22 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 'lighttpd-centos7' image.
+# The 'assemble' script builds your application source ready to run.
+#
+# For more information refer to the documentation:
+#  https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+echo "---> listing /tmp/src"
+ls -la /tmp/src/
+
+echo "---> Installing application source"
+cd /tmp/src/
+yarn install
+yarn build
+cp -R build/* /usr/share/nginx/html/
+cp env.sh /usr/share/nginx/html/
+cp .env /usr/share/nginx/html/
+chmod +x /usr/share/nginx/html/env.sh
+chmod -R 777 /usr/share/nginx/html/
+tree /usr/share/nginx/html/
